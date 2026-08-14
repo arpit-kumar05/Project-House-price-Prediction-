@@ -1,13 +1,12 @@
-FROM python:3.11-slim
+FROM python:3.11
 
 WORKDIR /app
 
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir --timeout=120 --retries=5 -r requirements.txt
 
-COPY . . 
+COPY . .
 
-EXPOSE 5000
-
-CMD ["python", "app.py","flask","run", "--host=0.0.0.0"]
+CMD ["python", "app.py"]
